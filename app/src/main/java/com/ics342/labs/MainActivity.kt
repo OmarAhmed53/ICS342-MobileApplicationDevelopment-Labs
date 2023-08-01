@@ -4,12 +4,14 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -30,6 +32,7 @@ import androidx.core.content.ContextCompat
 import com.ics342.labs.ui.theme.LabsTheme
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -62,9 +65,11 @@ class MainActivity : ComponentActivity() {
 }
 
 fun startNotificationService(context: Context) {
-    TODO("Start the Notification Service")
+    val serviceIntent = Intent(context, NotificationService::class.java)
+    ContextCompat.startForegroundService(context, serviceIntent)
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 private fun checkOrRequestPermission(
     context: Context,
     launcher: ManagedActivityResultLauncher<String, Boolean>,
